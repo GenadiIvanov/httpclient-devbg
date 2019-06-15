@@ -18,7 +18,7 @@ public class MD5Subscriber implements HttpResponse.BodySubscriber<byte[]> {
 
     private Flow.Subscription subscription;
 
-    public MD5Subscriber() {
+    MD5Subscriber() {
         try {
             this.digest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {

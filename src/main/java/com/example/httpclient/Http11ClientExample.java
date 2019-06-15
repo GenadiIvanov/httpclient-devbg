@@ -4,7 +4,6 @@ import com.example.utils.ExecutorServiceHelper;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
@@ -28,7 +27,6 @@ public class Http11ClientExample {
         try {
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(Version.HTTP_1_1)
-                    //.proxy(ProxySelector.getDefault())
                     .build();
 
             long start = System.currentTimeMillis();

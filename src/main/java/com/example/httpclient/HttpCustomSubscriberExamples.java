@@ -6,11 +6,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.ExecutionException;
 
 public class HttpCustomSubscriberExamples {
 
-    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+    private static final String LARGE_FILE_URI = "http://localhost:3010/api/file";
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Custom Subscriber example");
         performHttpRequest();
     }
@@ -22,13 +23,15 @@ public class HttpCustomSubscriberExamples {
                 .build();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:3010/api/file"))
+                .uri(URI.create(LARGE_FILE_URI))
                 .build();
 
         HttpResponse<byte[]> response = httpClient.send(request, responseInfo -> new MD5Subscriber());
         System.out.println("Response status code: " + response.statusCode());
-        System.out.println("Response Content-type header: " + response.headers().firstValue("content-type").get());
-        System.out.println("Response Content-type header: " + response.headers().firstValue("content-length").get());
-        System.out.println("Response md5 digest: " + DatatypeConverter.printHexBinary(response.body()));
+        System.out.println("Response 'Content-type' header: " + response.headers()
+                .firstValue("content-type").orElse(""));
+        System.out.println("Response 'Content-length' header: " + response.headers()
+                .firstValue("content-length").orElse(""));
+        System.out.println("Response MD5 digest: " + DatatypeConverter.printHexBinary(response.body()));
     }
 }

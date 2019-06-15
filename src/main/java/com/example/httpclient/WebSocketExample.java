@@ -18,7 +18,7 @@ public class WebSocketExample {
     private static Logger logger = Logger.getLogger(WebSocketExample.class.getName());
     private static ExecutorService executor = ExecutorServiceHelper.getExecutorService(3, logger);
 
-    public static final String ECHO_WEBSOCKET_URI = "wss://echo.websocket.org";
+    private static final String ECHO_WEBSOCKET_URI = "wss://echo.websocket.org";
 
     public static void main(String[] args) throws Exception {
         logger.info("Running WebSocket example...");
