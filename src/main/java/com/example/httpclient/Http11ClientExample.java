@@ -20,7 +20,7 @@ public class Http11ClientExample {
 
     private static Logger logger = Logger.getLogger(Http11ClientExample.class.getName());
 
-    private static ExecutorService executor = ExecutorServiceHelper.getExecutorService(20, logger);
+    private static ExecutorService executor = ExecutorServiceHelper.getExecutorService(6, logger);
 
     public static void main(String[] args) throws Exception {
         logger.info("Running HTTP/1.1 example...");
@@ -56,7 +56,8 @@ public class Http11ClientExample {
                                     .build();
                             try {
                                 HttpResponse<String> imageResponse = httpClient.send(imgRequest, BodyHandlers.ofString());
-                                logger.info("[" + Thread.currentThread().getName() + "] " + "Loaded " + image + ", status code: " + imageResponse.version());
+                                logger.info("[" + Thread.currentThread().getName() + "] " + "Loaded " + image + ", " +
+                                        "status code: " + imageResponse.statusCode() + ", " + "Protocol version: " + imageResponse.version());
                             } catch (IOException | InterruptedException ex) {
                                 logger.error("Error during image request for " + image, ex);
                             }

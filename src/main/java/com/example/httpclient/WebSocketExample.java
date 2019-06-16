@@ -11,7 +11,10 @@ import java.util.concurrent.ExecutorService;
 import com.example.utils.ExecutorServiceHelper;
 import org.apache.log4j.Logger;
 
-import static com.example.utils.ConsoleHelper.*;
+import static com.example.utils.ConsoleHelper.blue;
+import static com.example.utils.ConsoleHelper.cyan;
+import static com.example.utils.ConsoleHelper.green;
+import static com.example.utils.ConsoleHelper.red;
 
 public class WebSocketExample {
 

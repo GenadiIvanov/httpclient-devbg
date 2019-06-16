@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-
 public class Http2PushExample {
 
     private static Logger logger = Logger.getLogger(Http2PushExample.class.getName());

@@ -1,5 +1,7 @@
 package com.example.httpclient;
 
+import org.apache.log4j.Logger;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.net.URI;
@@ -7,12 +9,19 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static com.example.utils.ConsoleHelper.blue;
+import static com.example.utils.ConsoleHelper.cyan;
+import static com.example.utils.ConsoleHelper.green;
+import static com.example.utils.ConsoleHelper.red;
+
 public class HttpCustomSubscriberExamples {
+
+    private static Logger logger = Logger.getLogger(HttpCustomSubscriberExamples.class.getName());
 
     private static final String LARGE_FILE_URI = "http://localhost:3010/api/file";
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println("Custom Subscriber example");
+        logger.info(red("Custom Subscriber example..."));
         performHttpRequest();
     }
 
@@ -27,11 +36,9 @@ public class HttpCustomSubscriberExamples {
                 .build();
 
         HttpResponse<byte[]> response = httpClient.send(request, responseInfo -> new MD5Subscriber());
-        System.out.println("Response status code: " + response.statusCode());
-        System.out.println("Response 'Content-type' header: " + response.headers()
-                .firstValue("content-type").orElse(""));
-        System.out.println("Response 'Content-length' header: " + response.headers()
-                .firstValue("content-length").orElse(""));
-        System.out.println("Response MD5 digest: " + DatatypeConverter.printHexBinary(response.body()));
+        logger.info(green("Response status code: ") + response.statusCode());
+        logger.info(green("Response 'Content-type' header: ") + response.headers().firstValue("content-type").orElse(""));
+        logger.info(green("Response 'Content-length' header: ") + red(response.headers().firstValue("content-length").orElse("")));
+        logger.info(blue("Response MD5 digest: ") + cyan(DatatypeConverter.printHexBinary(response.body())));
     }
 }
