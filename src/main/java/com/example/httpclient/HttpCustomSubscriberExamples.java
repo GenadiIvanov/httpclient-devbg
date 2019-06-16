@@ -20,6 +20,10 @@ public class HttpCustomSubscriberExamples {
 
     private static final String LARGE_FILE_URI = "http://localhost:3010/api/file";
 
+    /**
+     * This example requires local server on port 3010.
+     * The server repo can be found at https://github.com/GenadiIvanov/httpserver-devbg
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info(red("Custom Subscriber example..."));
         performHttpRequest();

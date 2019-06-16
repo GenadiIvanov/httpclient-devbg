@@ -21,6 +21,10 @@ public class HttpClientAsyncExample {
 
     private static Logger logger = Logger.getLogger(HttpClientAsyncExample.class.getName());
 
+    /**
+     * This example requires local server on port 3010.
+     * The server repo can be found at https://github.com/GenadiIvanov/httpserver-devbg
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info(red("HttpClient async demonstration"));
         long startTime = System.currentTimeMillis();
@@ -29,7 +33,6 @@ public class HttpClientAsyncExample {
 
         long endTime = System.currentTimeMillis();
         logger.info(red("It took us: " + (endTime - startTime) + " milliseconds"));
-//        Thread.sleep(10000);
     }
 
     private static void displayLecturesContent() throws IOException, InterruptedException {
@@ -55,8 +58,6 @@ public class HttpClientAsyncExample {
                     .build();
             CompletableFuture<HttpResponse<String>> lectureContent = httpClient.sendAsync(lectureContentRequest, HttpResponse.BodyHandlers.ofString());
             listOfFutures.add(lectureContent);
-            lectureContent.thenAccept(stringHttpResponse ->
-                    logger.info(green("Lecture content: ") + new JSONObject(stringHttpResponse.body()).toString(2)));
         });
         CompletableFuture<Void> syncedFuture = CompletableFuture.allOf(listOfFutures.toArray(new CompletableFuture[0]));
         syncedFuture.thenAccept(aVoid ->
