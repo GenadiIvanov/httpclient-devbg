@@ -11,7 +11,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static com.example.utils.ConsoleHelper.blue;
 import static com.example.utils.ConsoleHelper.green;
@@ -50,20 +49,19 @@ public class HttpClientAsyncExample {
             lectureIds.add(jsonArray.getJSONObject(i).getString("id"));
         }
 
-        List<CompletableFuture<HttpResponse<String>>> listOfFutures = new ArrayList<>();
         lectureIds.forEach(id -> {
             HttpRequest lectureContentRequest = HttpRequest.newBuilder()
                     .GET()
                     .uri(URI.create("http://localhost:3010/api/lectures/" + id + "/content?delay=1"))
                     .build();
-            CompletableFuture<HttpResponse<String>> lectureContent = httpClient.sendAsync(lectureContentRequest, HttpResponse.BodyHandlers.ofString());
-            listOfFutures.add(lectureContent);
+
+            HttpResponse<String> lectureContent = null;
+            try {
+                lectureContent = httpClient.send(lectureContentRequest, HttpResponse.BodyHandlers.ofString());
+            } catch (InterruptedException | IOException e) {
+                logger.error("Error occurred: " + e.getMessage());
+            }
+            logger.info(green("Lecture content: ") + new JSONObject(lectureContent.body()).toString(2));
         });
-        CompletableFuture<Void> syncedFuture = CompletableFuture.allOf(listOfFutures.toArray(new CompletableFuture[0]));
-        syncedFuture.thenAccept(aVoid ->
-            listOfFutures.forEach(httpResponseCompletableFuture ->
-                    logger.info(green("Lecture content: ") + new JSONObject(httpResponseCompletableFuture.join().body()).toString(2))
-            )
-        ).join();
     }
 }
